@@ -12,7 +12,7 @@ def tenants(request):
         Tenant.objects.all()
         .prefetch_related('reminder_set'))
     for t in tenants:
-        rounded_trend = [int(round(v, 2) for v in t.trend())]
+        rounded_trend = [round(v, 2) for v in t.trend()]
         
         print(rounded_trend)
 
@@ -49,5 +49,5 @@ def tenants(request):
 @login_required
 def tenant_cashflows(request, tenant_id):
     tenant = get_object_or_404(Tenant, pk=tenant_id)
-    context = {'cashflows': tenant.cashflows()}
+    context = {'cashflows': 'tenant.cashflows()'}
     return render(request, 'main/cashflows.html', context)

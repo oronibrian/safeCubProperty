@@ -183,6 +183,67 @@ class Payment(models.Model):
         return u"{} - {}".format(self.date, self.amount)
 
 
+class Refund(models.Model):
+    """money returned to the tenant"""
+    description = models.CharField(
+        _("description"), max_length=1024)
+    tenant = models.ForeignKey(Tenant, verbose_name=Tenant._meta.verbose_name,on_delete=models.CASCADE)
+    date = models.DateField(_("date"))
+    amount = models.DecimalField(
+        _("amount"), max_digits=7, decimal_places=2,
+        validators=[MinValueValidator(0)])
+
+    class Meta:
+        verbose_name = _("money transfer to tenant")
+        verbose_name_plural = _("money transfers to tenant")
+        ordering = ['-date']
+
+    def __unicode__(self):
+        return u"{} - {}".format(self.date, self.amount)
+
+
+class Fee(models.Model):
+    """a one-time fee (for example an end of year adjustment fee)"""
+    description = models.CharField(_("description"), max_length=255)
+    tenant = models.ForeignKey(Tenant, verbose_name=Tenant._meta.verbose_name,on_delete=models.PROTECT)
+    date = models.DateField(_("date"))
+    amount = models.DecimalField(
+        _("amount"), max_digits=7, decimal_places=2,
+        validators=[MinValueValidator(0)], default=0)
+
+    class Meta:
+        verbose_name = _("one-time fee")
+        verbose_name_plural = _("one-time fees")
+        ordering = ['-date']
+
+    def __unicode__(self):
+        return u"{} - {}".format(self.description, self.date)
+
+
+class Discount(models.Model):
+    """a one-time discount
+    example: the tenant repainted a room and the
+    landlord agrees to pay for it
+    """
+    description = models.CharField(_("description"), max_length=255)
+    tenant = models.ForeignKey(Tenant, verbose_name=Tenant._meta.verbose_name,on_delete=models.PROTECT)
+    date = models.DateField(_("date"))
+    amount = models.DecimalField(
+        _("amount"), max_digits=7, decimal_places=2,
+        validators=[MinValueValidator(0)], default=0)
+
+    class Meta:
+        verbose_name = _("one-time discount")
+        verbose_name_plural = _("one-time discount")
+        ordering = ['-date']
+
+    def __unicode__(self):
+        return u"{} - {}".format(self.description, self.date)
+
+
+Cashflow = namedtuple('Cashflow', ['date', 'amount', 'description'])
+CashflowAndBalance = namedtuple('Cashflow',
+                                ['date', 'amount', 'description', 'balance'])
 
 
 def payments_to_cashflows(
@@ -257,7 +318,7 @@ def next_month(date, increment=1):
 
 def add_month(d, increment=1):
     month = d.month - 1 + increment
-    year = d.year + month / 12
+    year = d.year + month //12
     month = month % 12 + 1
     day = d.day
     max_day = monthrange(year, month)[1]
@@ -303,7 +364,7 @@ def moving_average(to_date, sorted_cashflows, size):
             last_balance += float(c.amount)
             last_date = c.date
         product += last_balance * (to_date - last_date).days
-        result.append(product / (to_date - from_date).days)
+        result.append(product //(to_date - from_date).days)
         from_date = to_date
         balance = last_balance
     return result
