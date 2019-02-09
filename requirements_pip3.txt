@@ -1,0 +1,4 @@
+Django==2.1.5
+django-lineage==0.2.0
+pytz==2018.9
+Whoosh==2.7.4
