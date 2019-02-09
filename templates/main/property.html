@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load lineage %}
+{% load i18n %}
+{% load static %}
+{% block styles %}
+<style>
+#customers {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#customers td, #customers th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+#customers tr:hover {background-color: #ddd;}
+
+#customers th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4CAF50;
+  color: white;
+}
+</style>
+
+{% endblock %}
+{% block content %}
+	
+
+<table id="customers">
+  <tr>
+    <th>Property Name</th>
+    <th>Property Type</th>
+    <th>Location</th>
+     <th>Price/Month</th>
+          <th>Rooms</th>
+
+
+  </tr>
+  		{% for property in properties %}
+
+  <tr>
+    <td>{{ property.name }}</td>
+    <td>{{ property.prop_type }}</td>
+    <td>{{ property.location }}</td>
+        <td>{{ property.price }}</td>
+        <td>{{ property.rooms }}</td>
+
+  </tr>
+	
+		
+		
+
+	
+
+
+		{%endfor%}
+</table>
+
+{% endblock %}
+{% block scripts %}
+<script src="{% static "main/sorttable.js" %}"></script>
+<script src="{% static "main/jquery.sparkline.min.js" %}"></script>
+{% endblock %}

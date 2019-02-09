@@ -1,9 +1,9 @@
-# from django.urls import path
-# from . import views
+from django.urls import path
+from . import views
 
-# urlpatterns = [
+urlpatterns = [
 
-#     path('', views.tenants, name="tenants"),
-#     path('tenant-cashflows/<int:tenant_id>/',
-#         views.tenant_cashflows, name="tenant_cashflows"),
-# ]
+    path('', views.property_view, name="property"),
+    # path('property/<int:tenant_id>/',
+    #     views.tenant_cashflows, name="property_single"),
+]

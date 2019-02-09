@@ -59,6 +59,9 @@ class Property(models.Model):
         _("number of rooms"), max_digits=2, decimal_places=0,
         validators=[MinValueValidator(1)])
 
+    price=models.DecimalField(max_digits=7, decimal_places=2,
+        validators=[MinValueValidator(0)])
+
     class Meta:
         verbose_name = _("property")
         verbose_name_plural = _("properties")

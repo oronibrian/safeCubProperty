@@ -25,7 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', RedirectView.as_view(url='main/', permanent=True)),
     path('main/', include('tenants.urls')),
-    # path('tenant/', include('tenants.urls')),
+    path('property/', include('property.urls')),
     # path('accounts/login/', 'django.contrib.auth.views.login'),
     # path('accounts/logout/', LogoutView.as_view(), {'next_page': settings.LOGOUT_REDIRECT_URL}, name='logout'),
 

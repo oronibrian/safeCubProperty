@@ -27,7 +27,7 @@
 <div class="collapse navbar-collapse">
 	<ul class="nav navbar-nav">
 		<li class="{% ancestor '/main/' %}"><a href="/main/">{% trans "tenants"|title %}</a></li>
-		<li class="{% ancestor '/import/' %}"><a href="/import/">{% trans "properties"|title %}</a></li>
+		<li class="{% ancestor '/property/' %}"><a href="/property/">{% trans "properties"|title %}</a></li>
 		<li class="{% ancestor '/admin/' %}"><a href="/admin/">{% trans "admin"|title %}</a></li>
 	</ul>
 	<ul class="nav navbar-nav navbar-right">
@@ -36,7 +36,9 @@
 </div>
 </nav>
 <div class="container">
-	{% block content %}{% endblock %}
+	{% block content %}
+
+	{% endblock %}
 </div>
 <hr/>
 <footer>
