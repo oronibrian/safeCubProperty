@@ -13,3 +13,8 @@ gunicorn==19.7.1
 openpyxl==2.4.8
 
 ~~~
+
+
+## Built With
+
+* [Django](https://www.djangoproject.com/) - The web framework used
