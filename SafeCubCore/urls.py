@@ -18,7 +18,17 @@ from django.conf import settings
 from django.urls import include
 from django.contrib import admin
 from django.views.generic import RedirectView
-from django.contrib.auth.views import LogoutView
+from django.contrib.auth.views import(
+    LoginView,
+    LogoutView,
+    PasswordResetView,
+    PasswordResetDoneView,
+    PasswordChangeView,
+    PasswordChangeDoneView,
+    PasswordResetConfirmView,
+    PasswordResetCompleteView
+)
+
 import re
 
 urlpatterns = [
@@ -26,9 +36,15 @@ urlpatterns = [
     path('', RedirectView.as_view(url='main/', permanent=True)),
     path('main/', include('tenants.urls')),
     path('property/', include('property.urls')),
-    # path('accounts/login/', 'django.contrib.auth.views.login'),
-    # path('accounts/logout/', LogoutView.as_view(), {'next_page': settings.LOGOUT_REDIRECT_URL}, name='logout'),
+
+    path('accounts/logout/',LogoutView.as_view(), {'next_page': settings.LOGOUT_REDIRECT_URL}, name='logout'),
+    # path('accounts/login/', auth_views.login, {'template_name': 'registration/login.html'}, name='login'),
+
+    # path('login/', LoginView.as_view(template_name='registration/login.html'), name='login'),
 
     path('accounts/', include('django.contrib.auth.urls')), # new
 
 ]
+
+admin.site.site_header = 'SafeCub Property administration'
+

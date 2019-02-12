@@ -22,6 +22,8 @@
 				<th>{% trans "trend"|title %}</th>
 				<th>{% trans "actions"|title %}</th>
 				<th>{% trans "send notification"|title %}</th>
+				<th>{% trans "Invoice PDF"|title %}</th>
+
 
 			</tr>
 		</thead>
@@ -43,8 +45,13 @@
 		       	</td>
 
 		       	<td>
-				<a href="{% url 'admin:tenants_reminder_change' t.tenant.id %}" class="btn btn-default send
-				 {{t.reminder_css}}"><span class="glyphicon glyphicon-bullhorn"></span> {% trans "reminders"|title %} - {{t.reminders_count}}</a>
+				<a href="{% url 'admin:tenants_reminder_change' t.tenant.id %}" class="btn btn-success send
+				 {{t.reminder_css}}"><span class="glyphicon glyphicon-envelope"></span> {% trans "Send"|title %} - {{t.reminders_count}}</a>
+		       	</td>
+
+		       	<td>
+				<a href="{% url 'admin:tenants_reminder_change' t.tenant.id %}" class="btn btn-success Invoice PDF
+				 {{t.reminder_css}}"><span class="glyphicon glyphicon-print"></span> {% trans "Invoice for"|title %} - {{t.tenant.name}}</a>
 		       	</td>
 		</tr>
 		{% endfor %}

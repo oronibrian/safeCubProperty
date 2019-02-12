@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'lineage',  # https://github.com/marcuswhybrow/django-lineage
 
     'property',
-    'tenants'
+    'tenants',
 ]
 
 MIDDLEWARE = [
@@ -124,5 +124,5 @@ USE_TZ = True
 STATIC_ROOT = 'static'
 STATIC_URL = '/static/'
 
-LOGIN_REDIRECT_URL = 'tenants/index'
+LOGIN_REDIRECT_URL = 'main'
 LOGOUT_REDIRECT_URL = ''

@@ -6,4 +6,7 @@ urlpatterns = [
     path('', views.tenants, name="tenants"),
     path('tenant-cashflows/<int:tenant_id>/',
         views.tenant_cashflows, name="tenant_cashflows"),
+
+    path('invoices/<int:id>/', views.tenant_invoice, name="invoices"),
+
 ]

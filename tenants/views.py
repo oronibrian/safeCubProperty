@@ -2,7 +2,7 @@
 from django.shortcuts import render
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from tenants.models import Tenant
+from tenants.models import Tenant,Invoice
 import json
 
 @login_required
@@ -49,5 +49,13 @@ def tenants(request):
 @login_required
 def tenant_cashflows(request, tenant_id):
     tenant = get_object_or_404(Tenant, pk=tenant_id)
-    context = {'cashflows': 'tenant.cashflows()'}
+    context = {'cashflows': tenant.cashflows()}
     return render(request, 'main/cashflows.html', context)
+
+
+@login_required
+def tenant_invoice(request, id):
+    tenant =Invoice.objects.all().filter(pk=id)
+    print(tenant)
+    context = {'invoice': tenant}
+    return render(request, 'main/invoice_pdf_template.html', context)

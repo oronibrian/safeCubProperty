@@ -71,7 +71,7 @@ class Tenant(models.Model):
         return moving_average(date.today(), list(self.cashflows()), 3)
 
     def balance(self):
-        return sum([c.amount for c in self.cashflows()])
+        return sum([int(c.amount) for c in self.cashflows()])
 
     def has_left(self, date_until=None):
         if date_until is None:
@@ -216,9 +216,8 @@ class Fee(models.Model):
         verbose_name_plural = _("one-time fees")
         ordering = ['-date']
 
-    def __unicode__(self):
-        return u"{} - {}".format(self.description, self.date)
-
+    def __str__(self):
+        return str(self.amount)
 
 class Discount(models.Model):
     """a one-time discount
@@ -268,7 +267,7 @@ def first_of_month_range(start_date, end_date):
     end_index = 12*end_date.year + end_date.month
     for index in range(start_index, end_index):
         month = (index - 1) % 12 + 1
-        year = (index - 1) / 12
+        year = (index - 1) // 12
         yield date(year, month, 1)
 
 
@@ -278,7 +277,7 @@ TWOPLACES = Decimal('0.00')
 def fractional_amount(amount, days, month_days):
     """Computes the amount for monthes that are not paid in full
     """
-    return Decimal(amount * days / month_days).quantize(TWOPLACES)
+    return Decimal(amount * days // month_days).quantize(TWOPLACES)
 
 
 def revision_to_cashflows(rev, end_date):
@@ -368,3 +367,22 @@ def moving_average(to_date, sorted_cashflows, size):
         from_date = to_date
         balance = last_balance
     return result
+
+
+
+
+class Invoice(models.Model):
+    """a Invoice (for example an end of year adjustment fee)"""
+    tenant = models.ForeignKey(Tenant, verbose_name=Tenant._meta.verbose_name,on_delete=models.PROTECT)
+    start_date = models.DateField()
+    end_date = models.DateField()
+
+    amount = models.ForeignKey(Fee, verbose_name=Tenant._meta.verbose_name,on_delete=models.PROTECT)
+
+    class Meta:
+        verbose_name = _("Invoice")
+        verbose_name_plural = _("Invoices")
+        ordering = ['-start_date']
+
+    def __str__(self):
+        return u"{} - {}".format(self.tenant, self.start_date)
